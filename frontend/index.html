@@ -1,50 +1,343 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SupplyGuard | Product Verification</title>
+  <meta name="description" content="SupplyGuard: AI-powered pharmaceutical packaging verification and immutable Web3 blockchain provenance.">
+  <meta name="theme-color" content="#0b120f">
+  <title>SupplyGuard | AI Pharma Verification & Provenance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
+  <div class="ambient-glow" aria-hidden="true"></div>
+
   <main class="shell">
+    <!-- Top Bar -->
     <header class="topbar">
-      <div class="brand"><span class="brand-mark">SG</span><span>SupplyGuard</span></div>
-      <span class="status-dot"><i></i> Verification console</span>
-    </header>
-    <section class="intro">
-      <p class="eyebrow">PHARMACEUTICAL AUTHENTICATION</p>
-      <h1>Trust what moves<br><em>through the chain.</em></h1>
-      <p class="lede">Upload a package label to run the trained YOLO classifier and anchor the result to an immutable batch history.</p>
-    </section>
-    <section class="workspace">
-      <form id="verify-form" class="panel">
-        <div class="panel-head"><span>01</span><h2>Inspect package</h2></div>
-        <label class="dropzone" id="dropzone">
-          <input id="image-input" type="file" accept="image/jpeg,image/png,image/webp" required>
-          <div id="upload-copy"><strong>Drop a label image here</strong><small>JPG, PNG or WEBP · max 10 MB</small></div>
-          <img id="preview" alt="Selected package preview">
-        </label>
-        <div class="fields">
-          <label>Batch ID <input name="batch_id" placeholder="Optional for AI-only check"></label>
-          <label>Location <input name="location" value="AI Verification Station"></label>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.3 7.5 9.5 4.4-1.2 7.5-4.9 7.5-9.5V6L12 3Z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </span>
+        <div class="brand-text">
+          <span class="brand-name">SupplyGuard</span>
+          <span class="brand-tag">AI · LEDGER PROVENANCE</span>
         </div>
-        <label class="toggle"><input name="record_blockchain" type="checkbox"><span></span> Record verification on local ledger</label>
-        <button id="verify-button" type="submit"><span>Verify product</span><b>→</b></button>
+      </div>
+
+      <nav class="top-meta" aria-label="System status">
+        <div class="telemetry-pill">
+          <span class="pulse-dot"></span>
+          <span>YOLOv8 Active</span>
+        </div>
+        <div class="telemetry-pill chain-pill">
+          <span class="chain-icon">⛓</span>
+          <span id="chain-status">Hardhat #31337</span>
+        </div>
+        <button id="theme-toggle" class="icon-btn" type="button" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+          <span class="theme-icon">◐</span>
+        </button>
+        <button id="open-timeline-btn" class="nav-cta-btn" type="button">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Batch Timeline</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="intro">
+      <div class="intro-copy">
+        <p class="eyebrow">
+          <span>PHARMACEUTICAL INTEGRITY ENGINE</span>
+        </p>
+        <h1>Defend the medicine supply<br><em>from synthetic counterfeit.</em></h1>
+        <p class="lede">Verify physical packaging labels with computer vision intelligence, then anchor tamper-evident cryptographic audits onto an append-only Ethereum provenance ledger.</p>
+      </div>
+
+      <aside class="pipeline" aria-label="Pipeline overview">
+        <div class="pipeline-header">
+          <span class="pipeline-title">VERIFICATION WORKFLOW</span>
+          <span class="pipeline-badge">LIVE LEDGER</span>
+        </div>
+        <ol>
+          <li><span class="step-num">01</span><div><b>Ingest Package</b><small>Upload, paste or camera scan</small></div></li>
+          <li><span class="step-num">02</span><div><b>YOLOv8 Inference</b><small>Dual class probability analysis</small></div></li>
+          <li><span class="step-num">03</span><div><b>SHA-256 Fingerprint</b><small>Cryptographic image digest</small></div></li>
+          <li><span class="step-num">04</span><div><b>On-Chain Mint</b><small>Immutable append-only audit trail</small></div></li>
+        </ol>
+      </aside>
+    </section>
+
+    <!-- Quick Demo Presets -->
+    <section class="presets-section" aria-label="Quick Demo Presets">
+      <div class="presets-label">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="m13 2-2 2.5V9l4.5 1 4.5-1V4.5L18 2h-5Z"/><circle cx="12" cy="14" r="4"/></svg>
+        <span>1-CLICK DEMO SAMPLES:</span>
+      </div>
+      <div class="presets-grid">
+        <button type="button" class="preset-btn" data-preset="real" data-batch="SG-BATCH-001">
+          <span class="preset-tag genuine">REAL</span>
+          <span class="preset-title">Genuine Paracetamol 500mg</span>
+        </button>
+        <button type="button" class="preset-btn" data-preset="fake" data-batch="SG-BATCH-001">
+          <span class="preset-tag suspect">FAKE</span>
+          <span class="preset-title">Tampered Counterfeit Carton</span>
+        </button>
+        <button type="button" class="preset-btn" data-preset="synthetic" data-batch="SG-BATCH-001">
+          <span class="preset-tag synthetic">SYNTHETIC</span>
+          <span class="preset-title">AI-Degraded Synthetic Variant</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Main Workspace -->
+    <section class="workspace">
+      <!-- Left Panel: Inspection Form -->
+      <form id="verify-form" class="panel" novalidate>
+        <div class="panel-head">
+          <div class="head-left">
+            <span class="badge">01</span>
+            <h2>Inspect Package Label</h2>
+          </div>
+          <div class="head-actions">
+            <button type="button" id="camera-btn" class="subtle-btn" title="Scan with webcam">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              <span>Camera</span>
+            </button>
+            <span class="head-tag">INPUT</span>
+          </div>
+        </div>
+
+        <label class="dropzone" id="dropzone" tabindex="0">
+          <input id="image-input" name="image" type="file" accept="image/jpeg,image/png,image/webp" required aria-label="Upload package label image">
+          <div id="upload-copy">
+            <span class="drop-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 15V3m0 0L8 7m4-4 4 4"/>
+                <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+              </svg>
+            </span>
+            <strong>Drop medicine label here</strong>
+            <small>or click to browse · paste clipboard image (Cmd+V) · max 10 MB</small>
+          </div>
+          <img id="preview" alt="Selected package preview">
+          <button type="button" id="clear-image-btn" class="clear-btn" title="Clear image" aria-label="Clear image">×</button>
+          <span class="scanline" aria-hidden="true"></span>
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+        </label>
+
+        <div class="fields">
+          <div class="field-group">
+            <label for="batch_id_input">BATCH IDENTIFIER</label>
+            <input id="batch_id_input" name="batch_id" value="SG-BATCH-001" placeholder="e.g. SG-BATCH-001" autocomplete="off">
+          </div>
+          <div class="field-group">
+            <label for="location_input">LOCATION / STATION</label>
+            <input id="location_input" name="location" value="AI Verification Station" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="options-row">
+          <label class="toggle">
+            <input id="record-blockchain" name="record_blockchain" type="checkbox" checked>
+            <span class="toggle-slider"></span>
+            <span class="toggle-text">Anchor audit on local Ethereum ledger</span>
+          </label>
+        </div>
+
+        <button id="verify-button" type="submit">
+          <span class="btn-text">Run YOLO Verification</span>
+          <b class="btn-arrow">→</b>
+        </button>
         <p id="error" class="error" role="alert"></p>
       </form>
+
+      <!-- Right Panel: Verification Intelligence -->
       <section class="panel result-panel" aria-live="polite">
-        <div class="panel-head"><span>02</span><h2>Verification result</h2></div>
-        <div id="empty-state" class="empty"><div class="scan-icon">+</div><p>Awaiting a package image</p><small>The live model result will appear here.</small></div>
+        <div class="panel-head">
+          <div class="head-left">
+            <span class="badge">02</span>
+            <h2>Intelligence & Ledger Audit</h2>
+          </div>
+          <span class="head-tag">OUTPUT</span>
+        </div>
+
+        <div id="empty-state" class="empty">
+          <div class="scan-radar">
+            <div class="radar-sweep"></div>
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="2"/><path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+          <p>Awaiting Medicine Package</p>
+          <small>Select an image or click a 1-click sample to view live classification and on-chain hash.</small>
+        </div>
+
         <div id="result" class="result hidden">
-          <div class="result-label"><span id="result-kicker">MODEL VERDICT</span><strong id="prediction">REAL</strong></div>
-          <div class="confidence"><div class="confidence-row"><span>Confidence</span><b id="confidence">0%</b></div><div class="bar"><i id="confidence-bar"></i></div></div>
-          <dl><div><dt>Image fingerprint</dt><dd id="hash">-</dd></div><div><dt>Ledger status</dt><dd id="ledger">Not recorded</dd></div></dl>
+          <!-- Verdict Badge -->
+          <div class="result-banner">
+            <div class="verdict-icon" id="verdict-icon">✓</div>
+            <div class="verdict-info">
+              <span class="verdict-kicker">CLASSIFIER VERDICT</span>
+              <strong id="prediction">REAL</strong>
+            </div>
+            <div class="verdict-badge" id="verdict-subbadge">AUTHENTIC</div>
+          </div>
+
+          <!-- Dual Probability Meters -->
+          <div class="probability-section">
+            <div class="prob-header">
+              <span>Confidence Distribution</span>
+              <b id="confidence">0%</b>
+            </div>
+            <div class="meter-bar">
+              <div id="real-bar" class="bar-fill real" style="width: 50%" title="REAL probability"></div>
+              <div id="fake-bar" class="bar-fill fake" style="width: 50%" title="FAKE probability"></div>
+            </div>
+            <div class="prob-legend">
+              <span class="legend-item"><i class="dot real-dot"></i> Real: <strong id="real-prob-val">0%</strong></span>
+              <span class="legend-item"><i class="dot fake-dot"></i> Fake: <strong id="fake-prob-val">0%</strong></span>
+            </div>
+          </div>
+
+          <!-- Telemetry Grid -->
+          <div class="telemetry-grid">
+            <div class="telemetry-card">
+              <span class="t-label">LATENCY</span>
+              <strong class="t-value" id="t-latency">-- ms</strong>
+            </div>
+            <div class="telemetry-card">
+              <span class="t-label">RESOLUTION</span>
+              <strong class="t-value" id="t-dims">-- px</strong>
+            </div>
+            <div class="telemetry-card">
+              <span class="t-label">FILE SIZE</span>
+              <strong class="t-value" id="t-size">-- KB</strong>
+            </div>
+            <div class="telemetry-card">
+              <span class="t-label">AI MODEL</span>
+              <strong class="t-value" id="t-model">YOLOv8n-Cls</strong>
+            </div>
+          </div>
+
+          <!-- Cryptographic Fingerprint & Blockchain Definition List -->
+          <dl class="audit-dl">
+            <div>
+              <dt>IMAGE SHA-256</dt>
+              <dd>
+                <code id="hash">-</code>
+                <button type="button" class="copy-btn" id="copy-hash-btn" title="Copy SHA-256">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                </button>
+              </dd>
+            </div>
+            <div>
+              <dt>BLOCKCHAIN LEDGER</dt>
+              <dd>
+                <span id="ledger" class="ledger-tag">Not recorded</span>
+                <button type="button" class="copy-btn hidden" id="copy-tx-btn" title="Copy Tx Hash">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                </button>
+              </dd>
+            </div>
+          </dl>
+
+          <!-- Action Bar -->
+          <div class="result-actions">
+            <button type="button" id="view-chain-history-btn" class="action-btn">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              <span>View On-Chain History</span>
+            </button>
+            <button type="button" id="print-cert-btn" class="action-btn secondary">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+              <span>Export Audit Cert</span>
+            </button>
+          </div>
+
+          <p class="advisory">AI classification provides probabilistic decision support. Quarantine suspect batches and follow laboratory or manufacturer re-testing protocols.</p>
         </div>
       </section>
     </section>
-    <footer>SupplyGuard AI classification · append-only provenance ledger</footer>
+
+    <!-- Footer -->
+    <footer>
+      <div class="foot-left">
+        <span>SupplyGuard AI Classification & Append-Only Provenance Ledger</span>
+        <span>Contract: <code id="contract-label">0x5FbDB2315678afecb367f032d93F642f64180aa3</code></span>
+      </div>
+      <div class="foot-right">
+        <span>Network: Local Hardhat #31337</span>
+        <span>Status: <strong class="online-tag">ONLINE</strong></span>
+      </div>
+    </footer>
   </main>
+
+  <!-- Modal: Batch Provenance Timeline -->
+  <dialog id="timeline-modal" class="custom-modal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div class="modal-title-group">
+          <h3>On-Chain Custody Provenance</h3>
+          <p>Append-only ledger history queried directly from Ethereum smart contract.</p>
+        </div>
+        <button type="button" id="close-modal-btn" class="close-modal" aria-label="Close modal">×</button>
+      </div>
+
+      <div class="modal-search">
+        <input type="text" id="modal-batch-input" placeholder="Enter Batch ID (e.g. SG-BATCH-001)" value="SG-BATCH-001">
+        <button type="button" id="fetch-batch-btn">Query Ledger</button>
+      </div>
+
+      <div id="modal-batch-meta" class="modal-batch-meta hidden">
+        <div class="meta-item"><span>Batch ID:</span> <b id="meta-batch-id">-</b></div>
+        <div class="meta-item"><span>Product:</span> <b id="meta-product-id">-</b></div>
+        <div class="meta-item"><span>Manufacturer:</span> <code id="meta-manufacturer">-</code></div>
+      </div>
+
+      <div id="timeline-loading" class="timeline-loading hidden">
+        <div class="spinner"></div>
+        <span>Querying smart contract on localhost...</span>
+      </div>
+
+      <div id="timeline-container" class="timeline-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Modal: Camera Scanner -->
+  <dialog id="camera-modal" class="custom-modal">
+    <div class="modal-card camera-card">
+      <div class="modal-head">
+        <h3>Live Package Camera Scanner</h3>
+        <button type="button" id="close-camera-btn" class="close-modal" aria-label="Close camera">×</button>
+      </div>
+      <div class="camera-viewport">
+        <video id="webcam-video" autoplay playsinline muted></video>
+        <canvas id="camera-canvas" class="hidden"></canvas>
+        <div class="viewfinder-reticle">
+          <span class="ret-corner tl"></span><span class="ret-corner tr"></span>
+          <span class="ret-corner bl"></span><span class="ret-corner br"></span>
+          <div class="viewfinder-line"></div>
+        </div>
+      </div>
+      <div class="camera-controls">
+        <button type="button" id="snap-btn" class="snap-btn">
+          <span>Capture & Inspect</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="toast hidden" role="status"></div>
+
   <script src="/static/app.js"></script>
 </body>
 </html>
